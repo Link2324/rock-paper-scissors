@@ -23,3 +23,20 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
     // The maximum is inclusive and the minimum is inclusive
 }
+
+function playRound(playerSelection, computerSelection) {
+    playerSelection = playerSelection.toLowerCase();
+    if (playerSelection === computerSelection) {
+        return `Tie! You both chose ${computerSelection[0].toUpperCase() + computerSelection.slice(1).toLowerCase()}`;
+    } else if (playerSelection === "rock" && computerSelection === "scissors") {
+        return "You Won! Rock beats Scissors";
+    } else if (playerSelection === "scissors" && computerSelection === "paper") {
+        return "You Won! Scissors beats Paper";
+    } else if (playerSelection === "paper" && computerSelection === "rock") {
+        return "You Won! Paper beats Rock";
+    } else {
+        return `You Lose! ${computerSelection[0].toUpperCase() + computerSelection.slice(1).toLowerCase()} beats ${playerSelection[0].toUpperCase() + playerSelection.slice(1).toLowerCase()}`;
+    }
+}
+
+console.log(playRound("RoCk", "paper"));
