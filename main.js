@@ -2,7 +2,7 @@
 
 // This function should return string in lowercase
 function getComputerChoice() {
-    selection = getRandomIntInclusive(1, 3);
+    let selection = getRandomIntInclusive(1, 3);
     /*
      * 1 = rock
      * 2 = paper
@@ -24,19 +24,54 @@ function getRandomIntInclusive(min, max) {
     // The maximum is inclusive and the minimum is inclusive
 }
 
+// returns 1 if player won, 0 for tie and -1 for lose
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase();
     if (playerSelection === computerSelection) {
-        return `Tie! You both chose ${computerSelection[0].toUpperCase() + computerSelection.slice(1).toLowerCase()}`;
+        return 0;
     } else if (playerSelection === "rock" && computerSelection === "scissors") {
-        return "You Won! Rock beats Scissors";
+        return 1;
     } else if (playerSelection === "scissors" && computerSelection === "paper") {
-        return "You Won! Scissors beats Paper";
+        return 1;
     } else if (playerSelection === "paper" && computerSelection === "rock") {
-        return "You Won! Paper beats Rock";
+        return 1;
     } else {
-        return `You Lose! ${computerSelection[0].toUpperCase() + computerSelection.slice(1).toLowerCase()} beats ${playerSelection[0].toUpperCase() + playerSelection.slice(1).toLowerCase()}`;
+        return -1;
     }
 }
 
-console.log(playRound("RoCk", "paper"));
+function captalizeFirstLetter(word) {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+}
+
+function playGame() {
+    let scorePlayer = 0;
+    let scoreCPU = 0;
+    let playerSelection;
+    let computerSelection;
+    // To store who won the round
+    let roundStatus;
+
+    for (let i = 0; i < 5; i++) {
+        playerSelection = prompt("Choose one from: [rock, paper, scissors]:");
+        computerSelection = getComputerChoice();
+
+        roundStatus = playRound(playerSelection, computerSelection);
+
+        if (roundStatus == 0) {
+            console.log("Tie! You both chose " + captalizeFirstLetter(playerSelection));
+        } else if (roundStatus == 1) {
+            console.log(`You Won! ${captalizeFirstLetter(playerSelection)} beats ${captalizeFirstLetter(computerSelection)}`)
+            scorePlayer++;
+        } else {
+            console.log(`You Lose! ${captalizeFirstLetter(computerSelection)} beats ${captalizeFirstLetter(playerSelection)}`)
+            scoreCPU++;
+        }
+    }
+
+    console.log(`You won ${scorePlayer} out of 5 rounds`);
+    console.log(`${5 - scoreCPU - scorePlayer} ended up in tie`);
+    console.log(`CPU won ${scoreCPU} out of 5 rounds`);
+}
+
+playGame();
