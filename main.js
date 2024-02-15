@@ -40,7 +40,7 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function captalizeFirstLetter(word) {
+function capitalizeFirstLetter(word) {
     return word[0].toUpperCase() + word.slice(1).toLowerCase();
 }
 
@@ -59,12 +59,12 @@ function playGame() {
         roundStatus = playRound(playerSelection, computerSelection);
 
         if (roundStatus == 0) {
-            console.log("Tie! You both chose " + captalizeFirstLetter(playerSelection));
+            console.log("Tie! You both chose " + capitalizeFirstLetter(playerSelection));
         } else if (roundStatus == 1) {
-            console.log(`You Won! ${captalizeFirstLetter(playerSelection)} beats ${captalizeFirstLetter(computerSelection)}`)
+            console.log(`You Won! ${capitalizeFirstLetter(playerSelection)} beats ${capitalizeFirstLetter(computerSelection)}`)
             scorePlayer++;
         } else {
-            console.log(`You Lose! ${captalizeFirstLetter(computerSelection)} beats ${captalizeFirstLetter(playerSelection)}`)
+            console.log(`You Lose! ${capitalizeFirstLetter(computerSelection)} beats ${capitalizeFirstLetter(playerSelection)}`)
             scoreCPU++;
         }
     }
