@@ -44,34 +44,85 @@ function capitalizeFirstLetter(word) {
     return word[0].toUpperCase() + word.slice(1).toLowerCase();
 }
 
-function playGame() {
-    let scorePlayer = 0;
-    let scoreCPU = 0;
-    let playerSelection;
-    let computerSelection;
-    // To store who won the round
-    let roundStatus;
+const buttonContainer = document.querySelector("#game_input");
 
-    for (let i = 0; i < 5; i++) {
-        playerSelection = prompt("Choose one from: [rock, paper, scissors]:");
-        computerSelection = getComputerChoice();
+buttonContainer.addEventListener("click", (e) => {
 
-        roundStatus = playRound(playerSelection, computerSelection);
+    const target = e.target;
+    let playerSelection = null;
 
-        if (roundStatus == 0) {
-            console.log("Tie! You both chose " + capitalizeFirstLetter(playerSelection));
-        } else if (roundStatus == 1) {
-            console.log(`You Won! ${capitalizeFirstLetter(playerSelection)} beats ${capitalizeFirstLetter(computerSelection)}`)
-            scorePlayer++;
-        } else {
-            console.log(`You Lose! ${capitalizeFirstLetter(computerSelection)} beats ${capitalizeFirstLetter(playerSelection)}`)
-            scoreCPU++;
-        }
+    switch (target.id) {
+        case 'rock':
+            playerSelection = 'rock';
+            break;
+
+        case 'paper':
+            playerSelection = 'paper';
+            break;
+
+        case 'scissors':
+            playerSelection = 'scissors'
+            break;
     }
 
-    console.log(`You won ${scorePlayer} out of 5 rounds`);
-    console.log(`${5 - scoreCPU - scorePlayer} ended up in tie`);
-    console.log(`CPU won ${scoreCPU} out of 5 rounds`);
+    if (scorePlayer === 5 || scoreCPU === 5) {
+        resetGame()
+    }
+
+    if (playerSelection) {
+        playGame(playerSelection, getComputerChoice());
+    }
+});
+
+let scorePlayer = 0;
+let scoreCPU = 0;
+
+const result = document.querySelector('#result');
+
+// labels for game status
+const winner = document.createElement('p');
+
+const paraPlayer = document.createElement('p');
+paraPlayer.textContent = 'Player Score: ' + scorePlayer; 
+
+const paraCPU = document.createElement('p');
+paraCPU.textContent = 'CPU Score: ' + scoreCPU;
+
+const paraPrevStatus = document.createElement('p');
+const label = 'Previous Round Status: '
+paraPrevStatus.textContent = label + 'No Previous Round';
+
+result.appendChild(paraPlayer);
+result.appendChild(paraCPU);
+result.appendChild(paraPrevStatus);
+result.appendChild(winner);
+
+function playGame(playerSelection, computerSelection) {
+    // To store who won the round
+    let roundStatus = playRound(playerSelection, computerSelection);
+
+    if (roundStatus == 0) {
+        paraPrevStatus.textContent = label + "Tie! You both chose " + capitalizeFirstLetter(playerSelection);
+    } else if (roundStatus == 1) {
+        paraPrevStatus.textContent = label + `You Won! ${capitalizeFirstLetter(playerSelection)} beats ${capitalizeFirstLetter(computerSelection)}`;
+        scorePlayer++;
+    } else {
+        paraPrevStatus.textContent = label + `You Lose! ${capitalizeFirstLetter(computerSelection)} beats ${capitalizeFirstLetter(playerSelection)}`;
+        scoreCPU++;
+    }
+
+    paraPlayer.textContent = 'Player Score: ' + scorePlayer;
+    paraCPU.textContent = 'CPU Score: ' + scoreCPU;
+
+    if (scoreCPU === 5) {        
+        winner.textContent = "Game Over! CPU won 5 rounds";
+    } else if (scorePlayer === 5) {
+        winner.textContent = "Congratulations! You won 5 rounds";
+    }
 }
 
-playGame();
+function resetGame() {
+    scorePlayer = 0;
+    scoreCPU = 0;
+    winner.textContent = '';
+}
